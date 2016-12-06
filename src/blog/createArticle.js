@@ -1,7 +1,3 @@
-//import jodit from 'jodit/jodit.min.js';
-//var riveted = require("exports?riveted!riveted")
-//var Jodit = require("jodit/jodit.min.js")
-
 export class createArticle{
     constructor(){
         this.newArticle = {
@@ -12,7 +8,7 @@ export class createArticle{
     }
 
     attached() {
-        this.contentEditor = new Jodit("#content", {
+        this.contentEditor = new Jodit("#article-content", {
             "toolbarButtonSize": "small"
         });
     }

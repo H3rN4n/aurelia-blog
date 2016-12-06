@@ -1,0 +1,5 @@
+export class viewArticle{
+    constructor(){
+        
+    }
+}

@@ -1,11 +1,14 @@
 import { inject, customElement, bindable } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 
-@customElement("articleList")
+@inject(Router)
+
+@customElement("article-list")
 export class articleList{
 
     @bindable list;
 
-    constructor(){
-
+    constructor(router){
+        this.router = router
     }
 }

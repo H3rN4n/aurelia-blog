@@ -1,12 +1,20 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
+import { ArticleService } from '../services/articleService'
 
-@inject(Router)
+@inject(Router, ArticleService)
 
 export class Blog{
-    constructor(router){
+    constructor(router, ArticleService){
         this.articles = null;
         this.router = router;
+        this.ArticleService = ArticleService;
+        this.articles = [
+            {'title':'Aurelia is Awesome', 'content': 'Post content', id: 1},
+            {'title':'Getting started with Loopback', 'content': 'Post content', id: 2},
+            {'title':'Oauth with Firebase', 'content': 'Post content', id: 3},
+            {'title':'Aurelia Resources', 'content': 'Post content', id: 4}
+        ];
     }
 
     canActivate(params, routeConfig, $navigationInstruction) {
@@ -14,12 +22,9 @@ export class Blog{
     }
     
     activate(params, routeConfig, $navigationInstruction) {
-        this.articles = [
-            {'title':'Aurelia is Awesome', 'content': 'Post content'},
-            {'title':'Getting started with Loopback', 'content': 'Post content'},
-            {'title':'Oauth with Firebase', 'content': 'Post content'},
-            {'title':'Aurelia Resources', 'content': 'Post content'}
-        ]
+        console.log(ArticleService);
+        //this.articles = ArticleService.getArticles();
+        return true;
     }
 
     canDeactivate() {
