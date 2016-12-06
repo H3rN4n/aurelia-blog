@@ -1,7 +1,6 @@
 <template>
     <div class="row">
         <div repeat.for="article of list" class="col-sm-4 col-md-4">
-            <!--<a route-href="route: view-article, params: { articleId: article.id }">-->
                 <div class="post">
                     <div class="post-img-content">
                         <img src="http://placehold.it/460x250/e67e22/ffffff&text=${article.title}" class="img-responsive" />
@@ -19,11 +18,11 @@
                             unknown printer took a galley of type and scrambled it to make a type specimen book.
                         </div>
                         <div>
-                            <a href="http://www.jquery2dotnet.com/2014/01/jquery-highlight-table-row-and-column.html" class="btn btn-warning btn-sm">Read more</a>
+                            <br/>
+                            <a route-href="route: view-article, params: { articleId: article.id }" class="btn btn-warning btn-sm">Read more</a>
                         </div>
                     </div>
                 </div>
-            <!--</a>-->
         </div>
     </div>
 </template>
