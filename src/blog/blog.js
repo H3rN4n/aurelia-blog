@@ -5,10 +5,10 @@ import { ArticleService } from '../services/articleService'
 @inject(Router, ArticleService)
 
 export class Blog{
-    constructor(router, ArticleService){
+    constructor(router, articleService){
         this.articles = null;
         this.router = router;
-        this.ArticleService = ArticleService;
+        this.articleService = articleService;
         this.articles = [
             {'title':'Aurelia is Awesome', 'content': 'Post content', id: 1},
             {'title':'Getting started with Loopback', 'content': 'Post content', id: 2},
@@ -22,8 +22,9 @@ export class Blog{
     }
     
     activate(params, routeConfig, $navigationInstruction) {
-        console.log(ArticleService);
-        //this.articles = ArticleService.getArticles();
+         this.articleService.getArticles().then(function(response){
+             this.articles = response;
+         });
         return true;
     }
 
