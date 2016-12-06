@@ -1,6 +1,7 @@
 <template>
     <div class="row">
         <div class="col-md-9">
+            <img src.bind="imageUrl" alt="" style="width:100%; margin-top: 25px;">
             <h2>${title}</h2>
             <div id="preview-content" innerhtml.bind="content | sanitizeHTML"></div>
         </div>
