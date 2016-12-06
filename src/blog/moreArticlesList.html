@@ -4,7 +4,7 @@
             <h3>More articles</h3>
             <ol class="list-group">
                 <li repeat.for="article of articles" class="list-group-item">
-                    <a route-href="route: view-article; params.bind: { id: article.id }" class="btn btn-warning btn-sm">${article.title}</a>
+                    <a route-href="route: view-article; params.bind: { id: article.id }">${article.title}</a>
                 </li>
             </ol>
         </div>

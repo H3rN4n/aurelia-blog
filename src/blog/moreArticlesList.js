@@ -12,7 +12,7 @@ export class moreArticleList{
         this.articleService = ArticleService
     }
 
-    activate(params, routeConfig, $navigationInstruction) {
+    attached() {
         this.articleService.getArticles().then((response) => {
             console.log(response);
             this.articles = response;
