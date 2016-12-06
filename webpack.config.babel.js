@@ -65,7 +65,8 @@ const coreBundles = {
     'aurelia-templating-binding',
     'aurelia-templating-router',
     'aurelia-templating-resources',
-    'aurelia-validation'
+    'aurelia-validation',
+    'aurelia-form-renderer-bootstrap'
   ]
 }
 

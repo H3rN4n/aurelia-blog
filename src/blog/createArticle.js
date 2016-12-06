@@ -1,18 +1,29 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {ArticleService} from './../services/articleService';
+import { ArticleService } from './../services/articleService';
+import { ValidationRules, ValidationController, validateTrigger } from 'aurelia-validation';
+import { FormRendererBootstrap } from 'aurelia-form-renderer-bootstrap';
 
-@inject(Router, ArticleService)
+@inject(Router, ArticleService, ValidationController)
 
 export class createArticle{
-    constructor(router, articleService){
+    constructor(router, articleService, validationController){
         this.articleService = articleService;
+        this.validationController = validationController;
+        this.validationController.validateTrigger = validateTrigger.change;
+        this.validationController.addRenderer( new FormRendererBootstrap());
         this.router = router;
         this.article = {
             title: '',
             content: '',
             imageUrl: ''
         }
+
+        ValidationRules
+        .ensure(a => a.title)
+        .required()
+        .minLength(5)
+        .on(this.article)
     }
 
     activate(params, routeConfig, $navigationInstruction) {
@@ -32,7 +43,6 @@ export class createArticle{
     }
 
     post(){
-        debugger;
         if(this.routeName == "new-article"){
             this.articleService.newArticle(this.article).then((response) => {
                 console.log(response);
@@ -50,4 +60,6 @@ export class createArticle{
         //this.router.navigate('#/discussion');
         this.router.navigateToRoute('view-article', {id: id})
     }
+
+
 }

@@ -4,20 +4,25 @@
             <h3 if.bind="!article.id">New Article</h3>
             <h3 if.bind="article.id">Update Article</h3>
             <form role="form" submit.delegate="post()" class="au-target">
-            <div class="form-group">
-                <label for="imageUrl">Image Url</label>
-                <input type="text" value.bind="article.imageUrl" class="form-control au-target" id="imageUrl">
-            </div>    
-            <div class="form-group">
-                <label for="fn">Title</label>
-                <input type="text" value.bind="article.title" class="form-control au-target" id="title">
-            </div>
-            <div class="form-group">
-                <label for="article-content">Content</label>
-                <textarea type="text" value.bind="article.content" class="form-control au-target" id="article-content"></textarea>
-                <!--<div id="content"></div>-->
-            </div>
-            <button type="submit" class="btn btn-success">Save</button>
+                <div class="form-group">
+                    <label for="imageUrl">Image Url</label>
+                    <input type="text" value.bind="article.imageUrl" class="form-control au-target" id="imageUrl">
+                </div>    
+                <div class="form-group">
+                    <label for="fn">Title</label>
+                    <input type="text" value.bind="article.title & validate" class="form-control au-target" id="title">
+                </div>
+                <div class="form-group">
+                    <label for="article-content">Content</label>
+                    <textarea type="text" value.bind="article.content" class="form-control au-target" id="article-content"></textarea>
+                    <!--<div id="content"></div>-->
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+                <ul if.bind="validationController.errors">
+                    <li repeat.for="error of validationController.errors" style="color:red;">
+                        ${error.message}
+                    </li>
+                </ul>
             </form>
         </div>
         <div class="col-md-6">
