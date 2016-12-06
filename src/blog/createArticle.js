@@ -23,7 +23,7 @@ export class createArticle{
         .ensure(a => a.title)
         .required()
         .minLength(5)
-        .on(this.article)
+        .on(this.article);
     }
 
     activate(params, routeConfig, $navigationInstruction) {
@@ -43,6 +43,7 @@ export class createArticle{
     }
 
     post(){
+        //if(this.validationController.error && this.validationController.error.length > 0) return;
         if(this.routeName == "new-article"){
             this.articleService.newArticle(this.article).then((response) => {
                 console.log(response);

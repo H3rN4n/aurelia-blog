@@ -15,14 +15,13 @@
                 <div class="form-group">
                     <label for="article-content">Content</label>
                     <textarea type="text" value.bind="article.content" class="form-control au-target" id="article-content"></textarea>
-                    <!--<div id="content"></div>-->
                 </div>
                 <button type="submit" class="btn btn-success">Save</button>
-                <ul if.bind="validationController.errors">
+                <!--<ul if.bind="validationController.errors">
                     <li repeat.for="error of validationController.errors" style="color:red;">
                         ${error.message}
                     </li>
-                </ul>
+                </ul>-->
             </form>
         </div>
         <div class="col-md-6">
