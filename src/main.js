@@ -12,6 +12,8 @@ export async function configure(aurelia) {
     .standardConfiguration()
     .developmentLogging()
     .plugin('aurelia-validation')
+    .plugin('aurelia-dialog');
+
 
   // Uncomment the line below to enable animation.
   // aurelia.use.plugin('aurelia-animator-css');

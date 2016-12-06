@@ -25,7 +25,7 @@ process.env.BABEL_ENV = 'webpack'
 const ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() || (process.env.NODE_ENV = 'development')
 
 // basic configuration:
-const title = 'Hernán De Souza Blog'
+const title = 'Blog example using Aurelia'
 const baseUrl = '/'
 const rootDir = path.resolve()
 const srcDir = path.resolve('src')
@@ -66,7 +66,8 @@ const coreBundles = {
     'aurelia-templating-router',
     'aurelia-templating-resources',
     'aurelia-validation',
-    'aurelia-form-renderer-bootstrap'
+    'aurelia-form-renderer-bootstrap',
+    'aurelia-dialog'
   ]
 }
 
