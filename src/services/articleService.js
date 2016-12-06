@@ -35,7 +35,6 @@ export class ArticleService{
     newArticle(article){
         article.id = this.articles.length + 1;
         this.articles = this.articles.concat(article);
-
         var promise = new Promise((resolve, reject) => {
             resolve(article);
         })
@@ -47,7 +46,6 @@ export class ArticleService{
         var promise = new Promise((resolve, reject) => {
             var oldArticle = this.articles.filter(n => n.id == updatedArticle.id);
             var index = this.articles.indexOf(oldArticle);
-            console.log(index);
             this.articles[index] = updatedArticle;
             resolve(updatedArticle);
         })
@@ -55,7 +53,14 @@ export class ArticleService{
         return promise;
     }
 
-    deleteArticle(){
-
+    deleteArticle(id){
+        var promise = new Promise((resolve, reject) => {
+            var article = this.articles.filter(n => n.id == id);
+            var index = this.articles.indexOf(article[0]);
+            var result = this.articles.splice(index, 1);
+            resolve(result);
+        })
+        
+        return promise;
     }
 }

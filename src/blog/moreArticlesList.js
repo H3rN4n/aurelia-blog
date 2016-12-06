@@ -14,7 +14,6 @@ export class moreArticleList{
 
     attached() {
         this.articleService.getArticles().then((response) => {
-            console.log(response);
             this.articles = response;
          });
         return true;

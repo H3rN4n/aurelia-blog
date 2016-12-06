@@ -58,7 +58,6 @@ export class createArticle{
     }
 
     goToArticle(id){
-        //this.router.navigate('#/discussion');
         this.router.navigateToRoute('view-article', {id: id})
     }
 

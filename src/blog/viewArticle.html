@@ -10,7 +10,7 @@
             <a route-href="route: update-article; params.bind: { id: article.id }">
                 <button class="btn btn-small btn-warning">Edit</button>
             </a>
-            <button class="btn btn-small btn-danger" click.delegate="delete()">Delete</button>
+            <button class="btn btn-small btn-danger" click.delegate="delete(article.id)">Delete</button>
             <h3>About me</h3>
             <img style="width:100%;" src="/images/yo.webp" alt="">
             <ul class="list-group">

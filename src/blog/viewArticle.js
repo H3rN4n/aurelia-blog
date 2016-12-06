@@ -16,7 +16,14 @@ export class viewArticle{
         })
     }
 
-    delete(){
-        console.log(this.article);
+    delete(id){
+        if(!id) return;
+        this.articleService.deleteArticle(id).then(()=>{
+            this.goToHome();
+        })
+    }
+
+    goToHome(){
+        this.router.navigate('#/');
     }
 }
