@@ -1,3 +1,28 @@
 <template>
-    View Article
+    <div class="row">
+        <div class="col-md-9">
+            <h2>${title}</h2>
+            <div id="preview-content" innerhtml.bind="content | sanitizeHTML"></div>
+        </div>
+        <div class="col-md-3">
+            <h3>About Me</h3>
+            <img style="width:100%;" src="/images/yo.webp" alt="">
+            <ul class="list-group">
+                <li class="list-group-item">Guillermo Hernán De Souza</li>
+                <li class="list-group-item">Sr Front-End Developer</li>
+                <li class="list-group-item">Email: desouza030689@gmail.com</li>
+                <li class="list-group-item">Twitter: @H3rN4n89</li>
+                <li class="list-group-item">Facebook Group: FrontoDevs</li>
+            </ul>
+            <h3>More articles</h3>
+            <ol class="list-group">
+                <li class="list-group-item"><a href="">Article</a></li>
+                <li class="list-group-item"><a href="">Article</a></li>
+                <li class="list-group-item"><a href="">Article</a></li>
+                <li class="list-group-item"><a href="">Article</a></li>
+            </ol>
+            <h3>Sponsors</h3>
+            Belatrix Software Banner
+        </div>
+    </div>
 </template>
