@@ -22,4 +22,16 @@ export class ArticleService{
         
         return promise;
     }
+
+    newArticle(){
+
+    }
+
+    updateArticle(){
+
+    }
+
+    deleteArticle(){
+        
+    }
 }
