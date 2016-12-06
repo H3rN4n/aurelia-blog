@@ -1,8 +1,8 @@
-//import { singleton } from 'aurelia-framework';
-import {transient} from 'aurelia-framework';
+import { singleton } from 'aurelia-framework';
+//import {transient} from 'aurelia-framework';
 
-//@singleton()
-@transient()
+@singleton()
+//@transient()
 
 export class ArticleService{
     constructor(){
@@ -23,8 +23,24 @@ export class ArticleService{
         return promise;
     }
 
-    newArticle(){
+    getArticle(id){
+        var promise = new Promise((resolve, reject) => {
+            var article = this.articles.filter(n => n.id == id);
+            resolve(article);
+        })
+        
+        return promise;
+    }
 
+    newArticle(article){
+        article.id = this.articles.length + 1;
+        this.articles = this.articles.concat(article);
+
+        var promise = new Promise((resolve, reject) => {
+            resolve(this.article);
+        })
+        
+        return promise;
     }
 
     updateArticle(){
@@ -32,6 +48,6 @@ export class ArticleService{
     }
 
     deleteArticle(){
-        
+
     }
 }
