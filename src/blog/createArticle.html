@@ -1,29 +1,30 @@
 <template>
     <div class="row">
         <div class="col-md-6">  
-            <h3>New Article</h3>
+            <h3 if.bind="!article.id">New Article</h3>
+            <h3 if.bind="article.id">Update Article</h3>
             <form role="form" submit.delegate="post()" class="au-target">
             <div class="form-group">
                 <label for="imageUrl">Image Url</label>
-                <input type="text" value.bind="newArticle.imageUrl" class="form-control au-target" id="imageUrl">
+                <input type="text" value.bind="article.imageUrl" class="form-control au-target" id="imageUrl">
             </div>    
             <div class="form-group">
                 <label for="fn">Title</label>
-                <input type="text" value.bind="newArticle.title" class="form-control au-target" id="title">
+                <input type="text" value.bind="article.title" class="form-control au-target" id="title">
             </div>
             <div class="form-group">
                 <label for="article-content">Content</label>
-                <textarea type="text" value.bind="newArticle.content" class="form-control au-target" id="article-content"></textarea>
+                <textarea type="text" value.bind="article.content" class="form-control au-target" id="article-content"></textarea>
                 <!--<div id="content"></div>-->
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-success">Save</button>
             </form>
         </div>
         <div class="col-md-6">
             <h3>Preview:</h3>
-            <img if.bind="article.imageUrl" src.bind="newArticle.imageUrl" alt="" style="width: 100%;">
-            <h2>${newArticle.title}</h2>
-            <div id="preview-content" innerhtml.bind="newArticle.content | sanitizeHTML"></div>
+            <img if.bind="article.imageUrl" src.bind="article.imageUrl" alt="" style="width: 100%;">
+            <h2>${article.title}</h2>
+            <div id="preview-content" innerhtml.bind="article.content | sanitizeHTML"></div>
         </div>
     </div>
 </template>

@@ -37,14 +37,22 @@ export class ArticleService{
         this.articles = this.articles.concat(article);
 
         var promise = new Promise((resolve, reject) => {
-            resolve(this.article);
+            resolve(article);
         })
         
         return promise;
     }
 
-    updateArticle(){
-
+    updateArticle(updatedArticle){
+        var promise = new Promise((resolve, reject) => {
+            var oldArticle = this.articles.filter(n => n.id == updatedArticle.id);
+            var index = this.articles.indexOf(oldArticle);
+            console.log(index);
+            this.articles[index] = updatedArticle;
+            resolve(updatedArticle);
+        })
+        
+        return promise;
     }
 
     deleteArticle(){

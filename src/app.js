@@ -4,6 +4,7 @@ export class App {
     config.map([
       { route: ['', 'blog'], name: 'blog',      moduleId: './blog/blog',      nav: true, title: 'Blog' },
       { route: 'new-article', name: 'new-article',      moduleId: './blog/createArticle', title: 'New Article' },
+      { route: 'update-article/:id', name: 'update-article',      moduleId: './blog/createArticle', title: 'Update Article' },
       { route: 'view-article/:id', name: 'view-article',      moduleId: './blog/viewArticle', title: 'View Article' }
       //{ route: 'users',         name: 'users',        moduleId: './users',        nav: true, title: 'Github Users' },
       //{ route: 'blog',          name: 'blog',         moduleId: './blog/blog',         nav: true, title: 'Blog' },

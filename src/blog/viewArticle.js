@@ -15,4 +15,8 @@ export class viewArticle{
             this.article = response[0];
         })
     }
+
+    delete(){
+        console.log(this.article);
+    }
 }

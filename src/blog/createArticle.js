@@ -8,11 +8,21 @@ export class createArticle{
     constructor(router, articleService){
         this.articleService = articleService;
         this.router = router;
-        this.newArticle = {
+        this.article = {
             title: '',
             content: '',
             imageUrl: ''
         }
+    }
+
+    activate(params, routeConfig, $navigationInstruction) {
+        this.routeName = routeConfig.name; 
+        if(routeConfig.name == "update-article"){
+            this.articleService.getArticle(params.id).then((response)=>{
+                this.article = response[0];
+            })
+        }
+
     }
 
     attached() {
@@ -22,15 +32,22 @@ export class createArticle{
     }
 
     post(){
-        console.log(this.newArticle);
-        this.articleService.newArticle(this.newArticle).then((response) => {
-            console.log(response);
-            //this.router.
-        });
+        debugger;
+        if(this.routeName == "new-article"){
+            this.articleService.newArticle(this.article).then((response) => {
+                console.log(response);
+                this.goToArticle(response.id);
+            });
+        } else {
+            this.articleService.updateArticle(this.article).then((response) => {
+                this.goToArticle(response.id);
+            });
+        }
+        
     }
 
-    goToArticle(article){
+    goToArticle(id){
         //this.router.navigate('#/discussion');
-        this.router.navigateToRoute('view-article', {id: article.id})
+        this.router.navigateToRoute('view-article', {id: id})
     }
 }

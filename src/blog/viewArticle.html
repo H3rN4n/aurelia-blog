@@ -6,7 +6,12 @@
             <div id="preview-content" innerhtml.bind="article.content | sanitizeHTML"></div>
         </div>
         <div class="col-md-3">
-            <h3>About Me</h3>
+            <h3>Actions</h3>
+            <a route-href="route: update-article; params.bind: { id: article.id }">
+                <button class="btn btn-small btn-warning">Edit</button>
+            </a>
+            <button class="btn btn-small btn-danger" click.delegate="delete()">Delete</button>
+            <h3>About me</h3>
             <img style="width:100%;" src="/images/yo.webp" alt="">
             <ul class="list-group">
                 <li class="list-group-item">Guillermo Hernán De Souza</li>
@@ -17,6 +22,7 @@
             </ul>
             <require from="./moreArticlesList"></require>
             <more-article-list></more-article-list>
+
             <h3>Sponsors</h3>
             <img src="/images/Belatrix.png" alt="Belatrix Software Factory" style="width:100%;">
         </div>
