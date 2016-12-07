@@ -15,6 +15,9 @@ export class Login {
     get authenticated() {
       return this.authService.authenticated;
     }
+    set authenticated(authenticated){
+        this.authService = authenticated;
+    }
 
     // use authService.login(credentialsObject) to login to your auth server
     // authService.authenticated holds the current status
