@@ -28,7 +28,7 @@
                     <label for="">Users</label>
                     <div repeat.for="user of users" class="checkbox">
                         <label>
-                        <input type="checkbox"> Username: ${user.username} | Full Name: ${user.fullName} 
+                        <input type="checkbox" checked.bind="checkedIfUserIsSelected(user.id)" change.delegate="toggleUser(user.id)"> Username: ${user.username} | Full Name: ${user.fullName}
                         </label>
                     </div>
                 </div>

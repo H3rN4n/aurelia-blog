@@ -46,6 +46,27 @@ export class ManageGroups{
         });
     }
 
+    toggleUser(userId){
+        var index = this.group.users.indexOf(userId);
+        console.log(index); 
+        if(index !== -1){
+            console.log('remove');
+            this.group.users.splice(index, 1);
+        } else {
+            console.log('add');
+            this.group.users.push(userId);
+        }
+    }
+
+    checkedIfUserIsSelected(userId){
+        var index = this.group.users.indexOf(userId);
+        if(index !== -1){
+            return true;
+        }
+
+        return false;
+    }
+
     post(){
         if(this.validationController.error && this.validationController.error.length > 0) return;
         
