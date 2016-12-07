@@ -8,6 +8,12 @@ export class App {
         nav: true,
         title: 'Blog'
       }, {
+        route: 'login',
+        name: 'login',
+        moduleId: './login',
+        title: 'Login'
+      },
+      {
         route: 'new-article',
         name: 'new-article',
         moduleId: './blog/createArticle',
@@ -61,5 +67,6 @@ export class App {
     ]);
 
     this.router = router;
+    console.log(this.router.currentInstruction);
   }
 }
