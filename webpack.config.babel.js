@@ -68,7 +68,10 @@ const coreBundles = {
     'aurelia-validation',
     'aurelia-form-renderer-bootstrap',
     'aurelia-dialog',
-    'aurelia-plugins-tabs'
+    'aurelia-plugins-tabs',
+    'aurelia-api',
+    'aurelia-authentication',
+    'aurelia-computed'
   ]
 }
 

@@ -7,13 +7,35 @@ import 'bootstrap/dist/css/bootstrap.css';
 import * as Bluebird from 'bluebird';
 Bluebird.config({ warnings: false });
 
+//authConfig
+//import authConfig from './authConfig';
+var API_URL = 'http://localhost:3000/api';
+
 export async function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
     .developmentLogging()
     .plugin('aurelia-validation')
     .plugin('aurelia-plugins-tabs')
-    .plugin('aurelia-dialog');
+    .plugin('aurelia-dialog')
+    .plugin('aurelia-api', config => {
+      // Register an authentication hosts
+      config
+        .registerEndpoint('auth', API_URL + '/auth')
+        .registerEndpoint('protected-api', API_URL + '/protected-api')
+        .registerEndpoint('public-api', API_URL + '/public-api')
+        .setDefaultEndpoint('auth');
+    })
+    .plugin('aurelia-computed', { // install the plugin
+      enableLogging: true // enable debug logging to see aurelia-computed's observability messages.
+    })
+    /* configure aurelia-authentication */
+    .plugin('aurelia-authentication', baseConfig => {
+        baseConfig.configure({
+          endpoint: 'auth',                   // '' for the default endpoint
+          configureEndpoints: ['auth', 'public-api'] // '' for the default endpoint
+        });
+    });
 
 
   // Uncomment the line below to enable animation.
