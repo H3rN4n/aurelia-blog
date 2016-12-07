@@ -67,7 +67,8 @@ const coreBundles = {
     'aurelia-templating-resources',
     'aurelia-validation',
     'aurelia-form-renderer-bootstrap',
-    'aurelia-dialog'
+    'aurelia-dialog',
+    'aurelia-plugins-tabs'
   ]
 }
 

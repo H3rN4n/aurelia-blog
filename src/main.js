@@ -12,6 +12,7 @@ export async function configure(aurelia) {
     .standardConfiguration()
     .developmentLogging()
     .plugin('aurelia-validation')
+    .plugin('aurelia-plugins-tabs')
     .plugin('aurelia-dialog');
 
 

@@ -1,0 +1,48 @@
+<template>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 if.bind="!user.id">New User</h2>
+                    <h2 if.bind="user.id">Update User</h2>
+                </div>
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-sm btn-danger btn-create pull-right" click.delegate="delete()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form role="form" submit.delegate="post()" class="au-target">
+        <div class="row">
+            <div class="col-md-6">    
+                <div class="form-group">
+                    <label for="fn">Username</label>
+                    <input type="text" value.bind="user.username & validate" class="form-control au-target" id="username">
+                </div>
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" value.bind="user.fullName & validate" class="form-control au-target" id="fullname">
+                </div>
+                <div class="form-group">
+                    <label for="">Groups</label>
+                    <div repeat.for="group of groups" class="checkbox">
+                        <label>
+                        <input type="checkbox"> ${group.title}
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+                <!--<ul if.bind="validationController.errors">
+                    <li repeat.for="error of validationController.errors" style="color:red;">
+                        ${error.message}
+                    </li>
+                </ul>-->
+            
+            </div>
+            <div class="col-md-6">
+            
+            </div>
+        </div>
+    </form>
+
+</template>

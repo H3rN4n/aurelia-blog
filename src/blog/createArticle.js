@@ -15,6 +15,7 @@ export class createArticle{
         this.router = router;
         this.article = {
             title: '',
+            description: '',
             content: '',
             imageUrl: ''
         }
@@ -23,6 +24,18 @@ export class createArticle{
         .ensure(a => a.title)
         .required()
         .minLength(5)
+        .on(this.article);
+
+        ValidationRules
+        .ensure(a => a.description)
+        .required()
+        .minLength(20)
+        .on(this.article);
+
+        ValidationRules
+        .ensure(a => a.content)
+        .required()
+        .minLength(20)
         .on(this.article);
     }
 
@@ -43,7 +56,8 @@ export class createArticle{
     }
 
     post(){
-        //if(this.validationController.error && this.validationController.error.length > 0) return;
+        if(this.validationController.error && this.validationController.error.length > 0) return;
+        
         if(this.routeName == "new-article"){
             this.articleService.newArticle(this.article).then((response) => {
                 console.log(response);

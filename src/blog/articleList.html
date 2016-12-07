@@ -8,11 +8,7 @@
                             <b>By Hernán De Souza</b></span>
                     </div>
                     <div class="content">
-                        <div>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                            Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                            unknown printer took a galley of type and scrambled it to make a type specimen book.
-                        </div>
+                        <div innerhtml.bind="article.description"></div>
                         <div>
                             <br/>
                             <a route-href="route: view-article; params.bind: { id: article.id }" class="btn btn-warning btn-sm">Read more</a>

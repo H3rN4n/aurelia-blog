@@ -1,0 +1,22 @@
+<template>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Groups</h2>
+        </div>
+        <div class="col-sm-6">
+            <a route-href="route: create-group">
+                <button type="button" class="btn btn-sm btn-primary btn-create pull-right">Create New</button>
+            </a>
+        </div>
+    </div>
+
+    <ul class="list-group">
+        <li repeat.for="group of groups" class="list-group-item">
+            <span class="badge">Users: ${group.users.length}</span>
+            <a route-href="route: group-management; params.bind: { id: group.id }">
+                ${group.title}
+            </a>
+        </li>
+    </ul>
+    
+</template>

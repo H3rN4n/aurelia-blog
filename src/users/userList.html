@@ -1,0 +1,22 @@
+<template>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Users</h2>
+        </div>
+        <div class="col-sm-6">
+            <a route-href="route: create-user">
+                <button type="button" class="btn btn-sm btn-primary btn-create pull-right">Create New</button>
+            </a>
+        </div>
+    </div>
+    
+    <ul class="list-group">
+        <li repeat.for="user of users" class="list-group-item">
+            <span class="badge">Groups: ${user.groups.length}</span>
+            <a route-href="route: user-management; params.bind: { id: user.id }">
+                Username: ${user.username} | Full Name: ${user.fullName}
+            </a>
+        </li>
+    </ul>
+    
+</template>
