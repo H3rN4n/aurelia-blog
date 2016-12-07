@@ -3,12 +3,14 @@ import {Router} from 'aurelia-router';
 import { ArticleService } from './../services/articleService';
 import { ValidationRules, ValidationController, validateTrigger } from 'aurelia-validation';
 import { FormRendererBootstrap } from 'aurelia-form-renderer-bootstrap';
+import { AuthService } from 'aurelia-authentication';
 
-@inject(Router, ArticleService, ValidationController)
+@inject(Router, ArticleService, ValidationController, AuthService)
 
 export class createArticle{
-    constructor(router, articleService, validationController){
+    constructor(router, articleService, validationController, authService){
         this.articleService = articleService;
+        this.authService = authService;
         this.validationController = validationController;
         this.validationController.validateTrigger = validateTrigger.change;
         this.validationController.addRenderer( new FormRendererBootstrap());
@@ -53,7 +55,10 @@ export class createArticle{
     attached() {
         var initJoditInterval = setInterval(()=>{
             console.log('initJoditInterval');
-            if(this.article && this.article.content){
+            if(this.routeName != "new-article" && this.article && this.article.content){
+                this.initJodit();
+                clearInterval(initJoditInterval);
+            } else {
                 this.initJodit();
                 clearInterval(initJoditInterval);
             }
@@ -67,6 +72,10 @@ export class createArticle{
     }
 
     post(){
+        if(!this.authService.authenticated) {
+            alert("You need to login to create and article");
+            return;
+        } 
         if(this.validationController.error && this.validationController.error.length > 0) return;
         
         if(this.routeName == "new-article"){

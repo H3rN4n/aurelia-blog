@@ -1,14 +1,16 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { ArticleService } from '../services/articleService'
+import { ArticleService } from '../services/articleService';
+import { AuthService } from 'aurelia-authentication';
 
-@inject(Router, ArticleService)
+@inject(Router, ArticleService, AuthService)
 
 export class Blog{
-    constructor(router, articleService){
+    constructor(router, articleService, authService){
         this.articles = null;
         this.router = router;
         this.articleService = articleService;
+        this.authService = authService;
     }
 
     activate(params, routeConfig, $navigationInstruction) {

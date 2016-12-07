@@ -3,7 +3,8 @@
         <div repeat.for="article of list" class="col-sm-4 col-md-4">
                 <div class="post">
                     <div class="post-img-content">
-                        <img src="http://placehold.it/460x250/e67e22/ffffff&text=${article.title}" class="img-responsive" />
+                        <img if.bind="!article.imageUrl" src="http://placehold.it/460x250/e67e22/ffffff&text=${article.title}" class="img-responsive" />
+                        <div class="bg-img" style="background-image: url(${article.imageUrl});"></div>
                         <span class="post-title"><b>${article.title}</b><br />
                             <b>By Hernán De Souza</b></span>
                     </div>
