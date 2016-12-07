@@ -68,9 +68,11 @@ export class UserService{
         var promise = new Promise((resolve, reject) => {
             var user = this.users.filter(n => n.id == id);
             var index = this.users.indexOf(user[0]);
+            console.log(user);
+            if(user[0].groups.length) reject({message: 'This group still have groups'})
             
-            var user = this.users.splice(index, 1);
-            resolve(user);
+            var result = this.groups.splice(index, 1);
+            resolve(result);
         })
         
         return promise;

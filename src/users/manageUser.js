@@ -39,6 +39,12 @@ export class ManageUser{
 
     delete(){
         console.log('delete');
+        this.userService.deleteUser(this.user.id).then((response) => {
+            console.log('deleteUser');
+            console.log(response); 
+        }, (err)=>{
+            alert(err.message);
+        });
     }
 
     post(){

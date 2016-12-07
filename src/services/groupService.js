@@ -68,8 +68,8 @@ export class GroupService{
         var promise = new Promise((resolve, reject) => {
             var group = this.groups.filter(n => n.id == id);
             var index = this.groups.indexOf(group[0]);
-
-            if(this.groups.users.length) reject({message: 'This group still have users'})
+            console.log(group);
+            if(group[0].users.length) reject({message: 'This group still have users'})
             
             var result = this.groups.splice(index, 1);
             resolve(result);

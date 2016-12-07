@@ -38,6 +38,12 @@ export class ManageGroups{
 
     delete(){
         console.log('delete');
+        this.groupService.deleteGroup(this.group.id).then((response) => {
+            console.log('deleteGroup');
+            console.log(response); 
+        }, (err)=>{
+            alert(err.message);
+        });
     }
 
     post(){
