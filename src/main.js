@@ -22,7 +22,7 @@ export async function configure(aurelia) {
       // Register an authentication hosts
       config
         .registerEndpoint('auth', API_URL)
-        // .registerEndpoint('protected-api', API_URL + '/protected-api')
+        .registerEndpoint('articles', API_URL + '/Articles')
         // .registerEndpoint('public-api', API_URL + '/public-api')
         .setDefaultEndpoint('auth');
     })

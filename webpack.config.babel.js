@@ -71,7 +71,8 @@ const coreBundles = {
     'aurelia-plugins-tabs',
     'aurelia-api',
     'aurelia-authentication',
-    'aurelia-computed'
+    'aurelia-computed',
+    'aurelia-fetch-client'
   ]
 }
 

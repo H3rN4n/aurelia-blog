@@ -1,22 +1,25 @@
+import {inject} from 'aurelia-framework';
+import {Endpoint} from 'aurelia-api';
+//import 'fetch';
 import { singleton } from 'aurelia-framework';
 //import {transient} from 'aurelia-framework';
 
 @singleton()
 //@transient()
 
+@inject(Endpoint.of('articles'))
+
 export class ArticleService{
-    constructor(){
-        this.articles = [
-            {'title':'Aurelia is Awesome', 'content': 'Post content', 'description': 'Description', id: 1},
-            {'title':'Getting started with Loopback', 'content': 'Post content', 'description': 'Description', id: 2},
-            {'title':'Oauth with Firebase', 'content': 'Post content', 'description': 'Description', id: 3},
-            {'title':'Aurelia Resources', 'content': 'Post content', 'description': 'Description', id: 4}
-        ];
+    constructor(articlesEndpoint){
+        this.articlesEndpoint = articlesEndpoint;
     }
 
     getArticles(){
         var promise = new Promise((resolve, reject) => {
-            resolve(this.articles);
+            return this.articlesEndpoint.find('')
+            .then(articles => {
+                resolve(articles);
+            });
         })
         
         return promise;
@@ -24,29 +27,33 @@ export class ArticleService{
 
     getArticle(id){
         var promise = new Promise((resolve, reject) => {
-            var article = this.articles.filter(n => n.id == id);
-            resolve(article);
+            return this.articlesEndpoint.find('/' + id)
+            .then(article => {
+                resolve(article);
+            });
         })
-        
         return promise;
     }
 
     newArticle(article){
-        article.id = this.articles.length + 1;
-        this.articles = this.articles.concat(article);
         var promise = new Promise((resolve, reject) => {
-            resolve(article);
+            return this.articlesEndpoint.create('', article)
+            .then(article => {
+                resolve(article);
+            });
         })
         
         return promise;
     }
 
-    updateArticle(updatedArticle){
+    updateArticle(article){
+        var articleId = article.id;
+        delete article.id;
         var promise = new Promise((resolve, reject) => {
-            var oldArticle = this.articles.filter(n => n.id == updatedArticle.id);
-            var index = this.articles.indexOf(oldArticle);
-            this.articles[index] = updatedArticle;
-            resolve(updatedArticle);
+            return this.articlesEndpoint.update('/' + articleId, null ,article)
+            .then(article => {
+                resolve(article);
+            });
         })
         
         return promise;
@@ -54,10 +61,10 @@ export class ArticleService{
 
     deleteArticle(id){  
         var promise = new Promise((resolve, reject) => {
-            var article = this.articles.filter(n => n.id == id);
-            var index = this.articles.indexOf(article[0]);
-            var result = this.articles.splice(index, 1);
-            resolve(result);
+            return this.articlesEndpoint.destroy('/' + id)
+            .then(() => {
+                resolve();
+            });
         })
         
         return promise;

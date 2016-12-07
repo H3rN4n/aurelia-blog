@@ -15,7 +15,7 @@ export class viewArticle{
 
     canActivate(params, routeConfig, $navigationInstruction) {
         this.articleService.getArticle(params.id).then((response)=>{
-            this.article = response[0];
+            this.article = response;
         })
     }
     

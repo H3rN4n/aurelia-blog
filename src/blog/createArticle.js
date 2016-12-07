@@ -39,20 +39,23 @@ export class createArticle{
         .on(this.article);
     }
 
-    activate(params, routeConfig, $navigationInstruction) {
+    canActivate(params, routeConfig, $navigationInstruction) {
         this.routeName = routeConfig.name; 
         if(routeConfig.name == "update-article"){
             this.articleService.getArticle(params.id).then((response)=>{
-                this.article = response[0];
+                console.log(response);
+                this.article = response;
+                return true;
             })
         }
-
     }
 
     attached() {
-        this.contentEditor = new Jodit("#article-content", {
-            "toolbarButtonSize": "small"
-        });
+        setTimeout(()=>{
+            this.contentEditor = new Jodit("#article-content", {
+                "toolbarButtonSize": "small"
+            });
+        }, 500)
     }
 
     post(){
