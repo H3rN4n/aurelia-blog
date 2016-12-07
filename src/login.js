@@ -16,7 +16,7 @@ export class Login {
       return this.authService.authenticated;
     }
     set authenticated(authenticated){
-        this.authService = authenticated;
+        this.authService.authenticated = authenticated;
     }
 
     // use authService.login(credentialsObject) to login to your auth server
@@ -24,6 +24,7 @@ export class Login {
     // authService.getPayload() gives you the current payload object (for jwt)
     login(credentialsObject) {
       console.log(credentialsObject)
+      console.log(this.authService);
       return this.authService.login(credentialsObject)
         .then(() => {
             this.authenticated = this.authService.authenticated;

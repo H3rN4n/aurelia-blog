@@ -23,7 +23,8 @@
 
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a href="/#/login">Login</a>
+            <a if.bind="!authService.authenticated" href="/#/login">Login</a>
+            <a if.bind="authService.authenticated" click.delegate="logout()">Logout</a>
           </li>
           <li class="loader" if.bind="router.isNavigating">
             <i class="fa fa-spinner fa-spin fa-2x"></i>
