@@ -51,11 +51,19 @@ export class createArticle{
     }
 
     attached() {
-        setTimeout(()=>{
-            this.contentEditor = new Jodit("#article-content", {
-                "toolbarButtonSize": "small"
-            });
-        }, 500)
+        var initJoditInterval = setInterval(()=>{
+            console.log('initJoditInterval');
+            if(this.article && this.article.content){
+                this.initJodit();
+                clearInterval(initJoditInterval);
+            }
+        }, 100)
+    }
+
+    initJodit(){
+        this.contentEditor = new Jodit("#article-content", {
+            "toolbarButtonSize": "small"
+        });
     }
 
     post(){
