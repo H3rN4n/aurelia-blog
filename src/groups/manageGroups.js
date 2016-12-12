@@ -46,37 +46,43 @@ export class ManageGroups{
         });
     }
 
-    toggleUserGroup(userId){
-        var index = this.group.users.indexOf(userId);
-        console.log(index); 
-        if(index !== -1){
-            console.log('remove');
+    removeUserFromGroup(groupId, relation){        
+        this.groupService.removeUserFromGroup(groupId, relation.id).then(()=>{
+            console.log('user removed');
+            var index = this.group.users.indexOf(relation);
+            console.log(index); 
             this.group.users.splice(index, 1);
-            updateGroupUsers(this.group)
-        } else {
-            console.log('add');
-            this.group.users.push(userId);
-            this.updateGroupUsers(this.group);
-        }
-    }
-
-    updateGroupUsers(group){
-        this.userService.removeUserFromGroup(group)
-        .then((user)=>{
-            this.userService.addUserToGroup(group).then((users)=>{
-                group.users = users
-            }).catch((err)=>{
-                console.log(err);
-            })
         }).catch((err)=>{
             console.log(err);
-        })
+        });
     }
 
-    checkedIfUserIsSelected(userId){
+    addUserFromGroup(groupId, userId){
+        //@todo: validate if relation exist;
+        this.groupService.addUserToGroup(groupId, userId).then((user)=>{
+            console.log('user added');
+            this.group.users = this.group.users.concat(user); 
+        }).catch((err)=>{
+            console.log(err);
+        });
+        
+    }
+    
+
+    checkedIfUserIsSelected(obj, type){
+        console.log(obj ,type)
+        function checkValue(value) {
+            if(type == "relation"){
+                return value.userId == obj.userId;
+            } else {
+                return value.userId == obj.id;
+            }
+            
+        }
+
         if(this.group.users && this.group.users.length){
-            var index = this.group.users.indexOf(userId);
-            if(index !== -1){
+            var result = this.group.users.filter(checkValue);
+            if(result.length){
                 return true;
             }
         }        

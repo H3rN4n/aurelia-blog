@@ -27,8 +27,16 @@
                 <div if.bind="group.id" class="form-group">
                     <label for="">Users</label>
                     <div repeat.for="user of users" class="checkbox">
+                        <label if.bind="!checkedIfUserIsSelected(user, 'user')">
+                            <input type="checkbox" change.delegate="addUserFromGroup(group.id, user.id)"> UserId: ${user.id} - Name: ${user.firstName}
+                        </label>
+                    </div>
+                </div>
+                <div if.bind="group.id" class="form-group">
+                    <label for="">Users Added</label>
+                    <div repeat.for="relation of group.users" class="checkbox">
                         <label>
-                            <input type="checkbox" checked.bind="checkedIfUserIsSelected(user.id)" change.delegate="toggleUserGroup(user.id)"> ${user.firstName} ${user.lastName} ${user.id}
+                            <input type="checkbox" checked.bind="checkedIfUserIsSelected(relation, 'relation')" change.delegate="removeUserFromGroup(group.id, relation)"> UserId:${relation.userId} - FK: ${relation.id}
                         </label>
                     </div>
                 </div>

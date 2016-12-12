@@ -112,27 +112,6 @@ export class UserService{
         
         return promise;
     }
-
-    removeUserFromGroup(group){
-        var promise = new Promise((resolve, reject) => {
-            return this.apiEndpoint.destroy('/groups/'+ group.id + '/users?access_token=' + this.authService.authentication.accessToken)
-            .then(users => {
-                resolve(users);
-            }).catch((err) => alert(err));
-        })
-
-        return promise;
-    }
-
-    addUserToGroup(group){
-        var promise = new Promise((resolve, reject) => {
-            return this.apiEndpoint.create('/groups/'+ group.id + '/users?access_token=' + this.authService.authentication.accessToken, group.users)
-            .then(users => {
-                resolve(users);
-            }).catch((err) => alert(err));
-        })
-
-        return promise;
-    }
+    
 
 }
