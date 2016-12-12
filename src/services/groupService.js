@@ -1,22 +1,26 @@
+import {inject} from 'aurelia-framework';
+import {Endpoint} from 'aurelia-api';
+
 import { singleton } from 'aurelia-framework';
 //import {transient} from 'aurelia-framework';
+import { AuthService } from 'aurelia-authentication';
 
 @singleton()
 //@transient()
+@inject(Endpoint.of('public'), AuthService)
 
 export class GroupService{
-    constructor(){
-        this.groups = [
-            {'title':'Group 1', 'users': [1,2], 'description': 'Description', id: 1},
-            {'title':'Group 2', 'users': [2,3], 'description': 'Description', id: 2},
-            {'title':'Group 3', 'users': [4], 'description': 'Description', id: 3},
-            {'title':'Group 4', 'users': [1,3], 'description': 'Description', id: 4}
-        ];
+    constructor(apiEndpoint, authService){
+        this.apiEndpoint = apiEndpoint;
+        this.authService = authService;
     }
 
     getGroups(){
         var promise = new Promise((resolve, reject) => {
-            resolve(this.groups);
+            return this.apiEndpoint.find('/groups/?access_token=' + this.authService.authentication.accessToken)
+            .then(groups => {
+                resolve(groups);
+            });
         })
         
         return promise;
@@ -24,55 +28,67 @@ export class GroupService{
 
     getGroup(id){
         var promise = new Promise((resolve, reject) => {
-            var group = this.groups.filter(n => n.id == id);
-            resolve(group);
+            //return this.apiEndpoint.find('/groups/'+ id +'/?access_token=' + this.authService.authentication.accessToken)
+            return this.apiEndpoint.find('/groups/'+ id, {
+                "access_token" : this.authService.authentication.accessToken,
+                "filter" : {"include": "users"}
+            })
+            .then(group => {
+                resolve(group);
+            });
         })
         
         return promise;
     }
 
     newGroup(group){
-        group.id = this.groups.length + 1;
-        this.groups = this.groups.concat(group);
         var promise = new Promise((resolve, reject) => {
-            resolve(group);
+            return this.apiEndpoint.create('/groups/?access_token=' + this.authService.authentication.accessToken, group)
+            .then(group => {
+                resolve(group);
+            });
+        })
+        
+        return promise;
+      
+    }
+
+    updateGroup(group){
+        var groupId = group.id;
+        delete group.id;
+        var promise = new Promise((resolve, reject) => {
+            return this.apiEndpoint.update('/groups/' + groupId + '?access_token=' + this.authService.authentication.accessToken, null ,group)
+            .then(group => {
+                resolve(group);
+            }).catch((err) => {
+                reject(err);
+            });
         })
         
         return promise;
     }
 
-    updateGroup(updatedGroup){
+    getUsersInGroup(group){
         var promise = new Promise((resolve, reject) => {
-            var oldGroup = this.groups.filter(n => n.id == updatedGroup.id);
-            var index = this.groups.indexOf(oldGroup);
-            this.groups[index] = updatedGroup;
-            resolve(updatedGroup);
+            return this.apiEndpoint.find('/groups/' + group.id + '/users?access_token=' + this.authService.authentication.accessToken)
+            .then(users => {
+                resolve(users);
+            }).catch((err) => {
+                reject(err);
+            });
         })
         
         return promise;
     }
 
-    updateUserInGroups(user){
+    deleteGroup(group){
+        console.log(group);
         var promise = new Promise((resolve, reject) => {
-            // var oldGroup = this.groups.filter(n => n.id == updatedGroup.id);
-            // var index = this.groups.indexOf(oldGroup);
-            // this.groups[index] = updatedGroup;
-            // resolve(updatedGroup);
-            resolve();
-        })
-        
-        return promise;
-    }
-
-    deleteGroup(id){
-        var promise = new Promise((resolve, reject) => {
-            var group = this.groups.filter(n => n.id == id);
-            var index = this.groups.indexOf(group[0]);
-            console.log(group);
-            if(group[0].users.length) reject({message: 'This group still have users'})
-            
-            var result = this.groups.splice(index, 1);
-            resolve(result);
+            if(group.users && group.users.length) reject({message: 'This group still have users'})
+            return this.apiEndpoint.destroy('/groups/' + group.id)
+            .then(() => {
+                resolve();
+            }).catch((err)=> alert(err));
         })
         
         return promise;

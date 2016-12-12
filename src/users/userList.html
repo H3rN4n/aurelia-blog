@@ -14,7 +14,7 @@
         <li repeat.for="user of users" class="list-group-item">
             <span class="badge">Groups: ${user.groups.length}</span>
             <a route-href="route: user-management; params.bind: { id: user.id }">
-                Username: ${user.username} | Full Name: ${user.fullName}
+               ${user.firstName} ${user.lastName}
             </a>
         </li>
     </ul>

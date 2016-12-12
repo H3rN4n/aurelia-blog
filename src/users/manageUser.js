@@ -30,7 +30,7 @@ export class ManageUser{
 
         if(routeConfig.name == "user-management"){
             this.userService.getUser(params.id).then((response)=>{
-                this.user = response[0];
+                this.user = response;
             })
         }
 
@@ -44,7 +44,7 @@ export class ManageUser{
             console.log(response); 
         }, (err)=>{
             alert(err.message);
-        });
+        }).catch((err) => alert(err));
     }
 
     post(){
@@ -55,18 +55,18 @@ export class ManageUser{
                 console.log('newUser');
                console.log(response);
                 
-            });
+            }).catch((err) => alert(err));
         } else {
             this.userService.updateUser(this.user).then((response) => {
                console.log('updateUser');
                console.log(response);
-            });
+            }).catch((err) => alert(err));
         }
 
         this.groupService.updateUserInGroups(this.user).then((response) => {
             console.log('updateUserInGroups');
             console.log(response);
-        });
+        }).catch((err) => alert(err));
 
         this.goToUserList();
         

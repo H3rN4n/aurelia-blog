@@ -7,28 +7,28 @@
                     <h2 if.bind="group.id">Update Group</h2>
                 </div>
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-sm btn-danger btn-create pull-right" click.delegate="delete()">Delete</button>
+                    <button if.bind="group.id" type="button" class="btn btn-sm btn-danger btn-create pull-right" click.delegate="delete(group)">Delete</button>
                 </div>
             </div>
         </div>
     </div>
     
-    <form role="form" submit.delegate="post()" class="au-target">
+    <form role="form" submit.delegate="post(group)" class="au-target">
         <div class="row">
-            <div class="col-md-6">    
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="fn">Title</label>
-                    <input type="text" value.bind="group.title & validate" class="form-control au-target" id="username">
+                    <label for="fn">Name</label>
+                    <input type="text" value.bind="group.name & validate" class="form-control au-target" id="fn">
                 </div>
                 <div class="form-group">
                     <label for="fullname">Description</label>
                     <input type="text" value.bind="group.description & validate" class="form-control au-target" id="fullname">
                 </div>
-                <div class="form-group">
+                <div if.bind="group.id" class="form-group">
                     <label for="">Users</label>
                     <div repeat.for="user of users" class="checkbox">
                         <label>
-                        <input type="checkbox" checked.bind="checkedIfUserIsSelected(user.id)" change.delegate="toggleUser(user.id)"> Username: ${user.username} | Full Name: ${user.fullName}
+                            <input type="checkbox" checked.bind="checkedIfUserIsSelected(user.id)" change.delegate="toggleUserGroup(user.id)"> ${user.firstName} ${user.lastName} ${user.id}
                         </label>
                     </div>
                 </div>

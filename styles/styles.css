@@ -448,7 +448,7 @@ body .page-host > .container {
 
 .login .form-signin {
   max-width: 420px;
-  padding: 30px 38px 66px;
+  padding: 30px 38px 45px;
   margin: 0 auto;
   background-color: #eee;
   border: 3px dotted rgba(0,0,0,0.1);  

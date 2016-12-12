@@ -7,7 +7,7 @@
                     <h2 if.bind="user.id">Update User</h2>
                 </div>
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-sm btn-danger btn-create pull-right" click.delegate="delete()">Delete</button>
+                    <button if.bind="user.id" type="button" class="btn btn-sm btn-danger btn-create pull-right" click.delegate="delete()">Delete</button>
                 </div>
             </div>
         </div>
@@ -17,17 +17,21 @@
             <div class="col-md-6">    
                 <div class="form-group">
                     <label for="fn">Username</label>
-                    <input type="text" value.bind="user.username & validate" class="form-control au-target" id="username">
+                    <input type="text" disabled="disabled" value.bind="user.username & validate" class="form-control au-target" id="username">
                 </div>
                 <div class="form-group">
-                    <label for="fullname">Full Name</label>
-                    <input type="text" value.bind="user.fullName & validate" class="form-control au-target" id="fullname">
+                    <label for="firstName">First Name</label>
+                    <input type="text" disabled="disabled" value.bind="user.firstName & validate" class="form-control au-target" id="firstName">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" disabled="disabled" value.bind="user.lastName & validate" class="form-control au-target" id="lastName">
                 </div>
                 <div class="form-group">
                     <label for="">Groups</label>
                     <div repeat.for="group of groups" class="checkbox">
                         <label>
-                        <input type="checkbox"> ${group.title}
+                        <input type="checkbox"> ${group.name}
                         </label>
                     </div>
                 </div>

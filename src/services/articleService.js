@@ -7,18 +7,18 @@ import { singleton } from 'aurelia-framework';
 @singleton()
 //@transient()
 
-@inject(Endpoint.of('articles'))
+@inject(Endpoint.of('public'))
 
 export class ArticleService{
-    constructor(articlesEndpoint){
-        this.articlesEndpoint = articlesEndpoint;
+    constructor(apiEndpoint){
+        this.apiEndpoint = apiEndpoint;
     }
 
     getArticles(){
         var promise = new Promise((resolve, reject) => {
-            return this.articlesEndpoint.find('')
-            .then(articles => {
-                resolve(articles);
+            return this.apiEndpoint.find('/posts',)
+            .then(users => {
+                resolve(users);
             });
         })
         
@@ -27,7 +27,7 @@ export class ArticleService{
 
     getArticle(id){
         var promise = new Promise((resolve, reject) => {
-            return this.articlesEndpoint.find('/' + id)
+            return this.apiEndpoint.find('/posts/' + id)
             .then(article => {
                 resolve(article);
             });
@@ -37,7 +37,7 @@ export class ArticleService{
 
     newArticle(article){
         var promise = new Promise((resolve, reject) => {
-            return this.articlesEndpoint.create('', article)
+            return this.apiEndpoint.create('/posts', article)
             .then(article => {
                 resolve(article);
             });
@@ -50,7 +50,7 @@ export class ArticleService{
         var articleId = article.id;
         delete article.id;
         var promise = new Promise((resolve, reject) => {
-            return this.articlesEndpoint.update('/' + articleId, null ,article)
+            return this.apiEndpoint.update('/posts/' + articleId, null ,article)
             .then(article => {
                 resolve(article);
             });
@@ -61,7 +61,7 @@ export class ArticleService{
 
     deleteArticle(id){  
         var promise = new Promise((resolve, reject) => {
-            return this.articlesEndpoint.destroy('/' + id)
+            return this.apiEndpoint.destroy('/posts/' + id)
             .then(() => {
                 resolve();
             });

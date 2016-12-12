@@ -1,22 +1,54 @@
+import {inject} from 'aurelia-framework';
+import {Endpoint} from 'aurelia-api';
+
 import { singleton } from 'aurelia-framework';
 //import {transient} from 'aurelia-framework';
+import { AuthService } from 'aurelia-authentication';
+import { GroupService } from './../services/groupService';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @singleton()
 //@transient()
+@inject(Endpoint.of('public'), AuthService, GroupService, EventAggregator)
 
 export class UserService{
-    constructor(){
-        this.users = [
-            {'username':'user1', 'groups': [1,4], 'fullName': 'Hernan De Souza', id: 1},
-            {'username':'user2', 'groups': [1,2], 'fullName': 'John Doe', id: 2},
-            {'username':'user3', 'groups': [2,4], 'fullName': 'Leonardo Otero', id: 3},
-            {'username':'user4', 'groups': [3], 'fullName': 'Doctor Strange', id: 4}
-        ];
+    constructor(apiEndpoint, authService, groupService, EventAggregator){
+        this.apiEndpoint = apiEndpoint;
+        this.authService = authService;
+        this.groupService = groupService;
+        this.ea = EventAggregator;
+
+        this.subscription = this.ea.subscribe('userAuthenticated', response => {
+            console.log('userAuthenticated - UserService')
+            console.log(response);
+            // This should yield: Object {testValue: "What just happened?"}
+            this.getUserRoles(response.user.responseObject.userId).then((response) => {
+                console.log(response);
+                this.authService.authentication.roles = response
+            });
+        });
     }
+
+    getUserRoles(id){
+        var promise = new Promise((resolve, reject)=>{
+          return this.apiEndpoint.find('/users/' + id + '/roles/?access_token=' + this.authService.authentication.accessToken)
+            .then(roles => {
+                resolve(roles);
+            });
+        })
+        
+      return promise;
+    }
+
 
     getUsers(){
         var promise = new Promise((resolve, reject) => {
-            resolve(this.users);
+            //resolve(this.users);
+            console.log(this.authService);
+            return this.apiEndpoint.find('/users/?access_token=' + this.authService.authentication.accessToken)
+            .then(users => {
+                resolve(users);
+            }).catch((err) => alert(err));
         })
         
         return promise;
@@ -24,8 +56,11 @@ export class UserService{
 
     getUser(id){
         var promise = new Promise((resolve, reject) => {
-            var user = this.users.filter(n => n.id == id);
-            resolve(user);
+            console.log(this.authService);
+            return this.apiEndpoint.find('/users/' + id + '?access_token=' + this.authService.authentication.accessToken)
+            .then(users => {
+                resolve(users);
+            }).catch((err) => alert(err));
         })
         
         return promise;
@@ -36,7 +71,7 @@ export class UserService{
         this.users = this.users.concat(user);
         var promise = new Promise((resolve, reject) => {
             resolve(user);
-        })
+        }).catch((err) => alert(err))
         
         return promise;
     }
@@ -47,7 +82,7 @@ export class UserService{
             var index = this.users.indexOf(oldUser);
             this.users[index] = updatedUser;
             resolve(updatedUser);
-        })
+        }).catch((err) => alert(err))
         
         return promise;
     }
@@ -59,7 +94,7 @@ export class UserService{
             // this.groups[index] = updatedGroup;
             // resolve(updatedGroup);
             resolve();
-        })
+        }).catch((err) => alert(err))
         
         return promise;
     }
@@ -73,8 +108,31 @@ export class UserService{
             
             var result = this.groups.splice(index, 1);
             resolve(result);
-        })
+        }).catch((err) => alert(err))
         
         return promise;
     }
+
+    removeUserFromGroup(group){
+        var promise = new Promise((resolve, reject) => {
+            return this.apiEndpoint.destroy('/groups/'+ group.id + '/users?access_token=' + this.authService.authentication.accessToken)
+            .then(users => {
+                resolve(users);
+            }).catch((err) => alert(err));
+        })
+
+        return promise;
+    }
+
+    addUserToGroup(group){
+        var promise = new Promise((resolve, reject) => {
+            return this.apiEndpoint.create('/groups/'+ group.id + '/users?access_token=' + this.authService.authentication.accessToken, group.users)
+            .then(users => {
+                resolve(users);
+            }).catch((err) => alert(err));
+        })
+
+        return promise;
+    }
+
 }

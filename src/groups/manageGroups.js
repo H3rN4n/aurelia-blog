@@ -15,30 +15,30 @@ export class ManageGroups{
         this.validationController = validationController;
         this.validationController.validateTrigger = validateTrigger.change;
         this.validationController.addRenderer( new FormRendererBootstrap());
-        this.group = {'title':'', 'users': [], 'description': ''}
+        this.group = {'name':'', 'users': [], 'description': ''}
     }
 
     activate(params, routeConfig, $navigationInstruction) {
         this.routeName = routeConfig.name; 
         
-        this.userService.getUsers().then((response)=>{
-            this.users = response;
+        this.userService.getUsers().then((users)=>{
+            this.users = users;
             console.log(this.users);
         })
         
 
         if(routeConfig.name == "group-management"){
-            this.groupService.getGroup(params.id).then((response)=>{
-                this.group = response[0];
+            this.groupService.getGroup(params.id).then((group)=>{
+                this.group = group;
             })
         }
 
         return true;
     }
 
-    delete(){
+    delete(group){
         console.log('delete');
-        this.groupService.deleteGroup(this.group.id).then((response) => {
+        this.groupService.deleteGroup(group).then((response) => {
             console.log('deleteGroup');
             console.log(response); 
         }, (err)=>{
@@ -46,28 +46,43 @@ export class ManageGroups{
         });
     }
 
-    toggleUser(userId){
+    toggleUserGroup(userId){
         var index = this.group.users.indexOf(userId);
         console.log(index); 
         if(index !== -1){
             console.log('remove');
             this.group.users.splice(index, 1);
+            updateGroupUsers(this.group)
         } else {
             console.log('add');
             this.group.users.push(userId);
+            this.updateGroupUsers(this.group);
         }
+    }
+
+    updateGroupUsers(group){
+        this.userService.removeUserFromGroup(group)
+        .then((user)=>{
+            this.userService.addUserToGroup(group).then((users)=>{
+                group.users = users
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }).catch((err)=>{
+            console.log(err);
+        })
     }
 
     checkedIfUserIsSelected(userId){
-        var index = this.group.users.indexOf(userId);
-        if(index !== -1){
-            return true;
-        }
-
-        return false;
+        if(this.group.users && this.group.users.length){
+            var index = this.group.users.indexOf(userId);
+            if(index !== -1){
+                return true;
+            }
+        }        
     }
 
-    post(){
+    post(group){
         if(this.validationController.error && this.validationController.error.length > 0) return;
         
         if(this.routeName == "create-group"){
@@ -77,16 +92,16 @@ export class ManageGroups{
                 
             });
         } else {
-            this.groupService.updateGroup(this.user).then((response) => {
+            this.groupService.updateGroup(this.group).then((response) => {
                console.log('updateGroup');
                console.log(response);
             });
         }
 
-        this.userService.updateGroupInUsers(this.user).then((response) => {
-            console.log('updateGroupInUsers');
-            console.log(response);
-        });
+        // this.userService.updateGroupsInUsers(this.group).then((response) => {
+        //     console.log('updateGroupInUsers');
+        //     console.log(response);
+        // });
 
         this.goToGroupList();
         

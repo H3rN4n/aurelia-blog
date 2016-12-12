@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 // comment out if you don't want a Promise polyfill (remove also from webpack.common.js)
 import * as Bluebird from 'bluebird';
+
 Bluebird.config({ warnings: false });
 
 //authConfig
@@ -22,8 +23,8 @@ export async function configure(aurelia) {
       // Register an authentication hosts
       config
         .registerEndpoint('auth', API_URL)
-        .registerEndpoint('articles', API_URL + '/Articles')
-        // .registerEndpoint('public-api', API_URL + '/public-api')
+        .registerEndpoint('public', API_URL)
+        // .registerEndpoint('public-api', API_URL + x'/public-api')
         .setDefaultEndpoint('auth');
     })
     .plugin('aurelia-computed', { // install the plugin
@@ -34,7 +35,7 @@ export async function configure(aurelia) {
         baseConfig.configure({
           endpoint: 'auth',                   // '' for the default endpoint
           configureEndpoints: ['auth'], // '' for the default endpoint
-          loginUrl: '/Users/login',
+          loginUrl: '/users/login',
           accessTokenProp: 'id'
         });
     });

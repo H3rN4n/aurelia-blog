@@ -38,7 +38,9 @@ const coreBundles = {
     'aurelia-pal',
     'aurelia-pal-browser',
     'regenerator-runtime',
-    'bluebird'
+    'bluebird',
+    'jodit',
+    'font-awesome'
   ],
   // these will be included in the 'aurelia' bundle (except for the above bootstrap packages)
   aurelia: [
