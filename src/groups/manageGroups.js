@@ -1,4 +1,4 @@
-import { inject } from 'aurelia-framework';
+import { inject, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { GroupService } from './../services/groupService';
 import { UserService } from './../services/userService';
@@ -17,6 +17,14 @@ export class ManageGroups{
         this.validationController.addRenderer( new FormRendererBootstrap());
         this.group = {'name':'', 'users': [], 'description': ''}
     }
+
+    // @computedFrom('group.users')
+    // get groupUsers() {
+    //     return group.users;
+    // }
+    // set groupUsers(users){
+    //     this.group.users = users;
+    // }
 
     activate(params, routeConfig, $navigationInstruction) {
         this.routeName = routeConfig.name; 
@@ -68,7 +76,7 @@ export class ManageGroups{
         //@todo: validate if relation exist;
         this.groupService.addUserToGroup(groupId, userId).then((user)=>{
             console.log('user added');
-            this.group.users = this.group.users.concat(user); 
+            this.group.users = this.group.users.concat(user);
         }).catch((err)=>{
             console.log(err);
         });    
