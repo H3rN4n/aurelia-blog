@@ -28,17 +28,18 @@
                     <label for="">Users</label>
                     <div repeat.for="user of users" class="checkbox">
                         <label if.bind="!checkedIfUserIsSelected(user, 'user')">
-                            <input type="checkbox" change.delegate="addUserFromGroup(group.id, user.id)"> UserId: ${user.id} - Name: ${user.firstName}
+                            <input type="checkbox" change.delegate="addUserFromGroup(group.id, user.id)"> ${user.firstName} ${user.lastName}
                         </label>
                     </div>
                 </div>
                 <div if.bind="group.id" class="form-group">
                     <label for="">Users Added</label>
-                    <div repeat.for="relation of group.users" class="checkbox">
-                        <label>
-                            <input type="checkbox" checked.bind="checkedIfUserIsSelected(relation, 'relation')" change.delegate="removeUserFromGroup(group.id, relation)"> UserId:${relation.userId} - FK: ${relation.id}
-                        </label>
-                    </div>
+                    <ul class="list-group">
+                        <li repeat.for="relation of group.users" class="list-group-item">
+                            ${getUserName(relation.userId)}
+                            <button class="btn btn-sm btn-danger pull-right" click.delegate="removeUserFromGroup(group.id, relation)">remove</button>
+                        </li>
+                    </ul>
                 </div>
                 <button type="submit" class="btn btn-success">Save</button>
                 <!--<ul if.bind="validationController.errors">

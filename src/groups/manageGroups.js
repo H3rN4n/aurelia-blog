@@ -24,16 +24,13 @@ export class ManageGroups{
         this.userService.getUsers().then((users)=>{
             this.users = users;
             console.log(this.users);
+            if(routeConfig.name == "group-management"){
+                this.groupService.getGroup(params.id).then((group)=>{
+                    this.group = group;
+                })
+            }
+            return true;
         })
-        
-
-        if(routeConfig.name == "group-management"){
-            this.groupService.getGroup(params.id).then((group)=>{
-                this.group = group;
-            })
-        }
-
-        return true;
     }
 
     delete(group){
@@ -41,6 +38,7 @@ export class ManageGroups{
         this.groupService.deleteGroup(group).then((response) => {
             console.log('deleteGroup');
             console.log(response); 
+            this.goToGroupList();
         }, (err)=>{
             alert(err.message);
         });
@@ -57,6 +55,15 @@ export class ManageGroups{
         });
     }
 
+    getUserName(id){
+        function checkValue(value) {
+            return value.id == id;            
+        }
+
+        var filtered = this.users.filter(checkValue);
+        return filtered[0].firstName + " " + filtered[0].lastName;;   
+    }
+
     addUserFromGroup(groupId, userId){
         //@todo: validate if relation exist;
         this.groupService.addUserToGroup(groupId, userId).then((user)=>{
@@ -64,8 +71,7 @@ export class ManageGroups{
             this.group.users = this.group.users.concat(user); 
         }).catch((err)=>{
             console.log(err);
-        });
-        
+        });    
     }
     
 
@@ -76,8 +82,7 @@ export class ManageGroups{
                 return value.userId == obj.userId;
             } else {
                 return value.userId == obj.id;
-            }
-            
+            } 
         }
 
         if(this.group.users && this.group.users.length){
@@ -85,7 +90,7 @@ export class ManageGroups{
             if(result.length){
                 return true;
             }
-        }        
+        }       
     }
 
     post(group){
@@ -104,18 +109,10 @@ export class ManageGroups{
             });
         }
 
-        // this.userService.updateGroupsInUsers(this.group).then((response) => {
-        //     console.log('updateGroupInUsers');
-        //     console.log(response);
-        // });
-
-        this.goToGroupList();
-        
+        this.goToGroupList();   
     }
 
     goToGroupList(){
         this.router.navigateToRoute('group-list')
     }
-
-
 }
