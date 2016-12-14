@@ -43,7 +43,10 @@ export class GroupService{
 
     newGroup(group){
         var promise = new Promise((resolve, reject) => {
-            return this.apiEndpoint.create('/groups/?access_token=' + this.authService.authentication.accessToken, group)
+            return this.apiEndpoint.create('/groups/', group, {
+                "access_token" : this.authService.authentication.accessToken,
+                "filter" : {"include": "users"}
+            })
             .then(group => {
                 resolve(group);
             });
@@ -57,7 +60,10 @@ export class GroupService{
         var groupId = group.id;
         delete group.id;
         var promise = new Promise((resolve, reject) => {
-            return this.apiEndpoint.update('/groups/' + groupId + '?access_token=' + this.authService.authentication.accessToken, null ,group)
+            return this.apiEndpoint.update('/groups/' + groupId, {
+                "access_token" : this.authService.authentication.accessToken,
+                "filter" : {"include": "users"}
+            } ,group)
             .then(group => {
                 resolve(group);
             }).catch((err) => {
@@ -68,18 +74,18 @@ export class GroupService{
         return promise;
     }
 
-    getUsersInGroup(group){
-        var promise = new Promise((resolve, reject) => {
-            return this.apiEndpoint.find('/groups/' + group.id + '/users?access_token=' + this.authService.authentication.accessToken)
-            .then(users => {
-                resolve(users);
-            }).catch((err) => {
-                reject(err);
-            });
-        })
+    // getUsersInGroup(group){
+    //     var promise = new Promise((resolve, reject) => {
+    //         return this.apiEndpoint.find('/groups/' + group.id + '/users?access_token=' + this.authService.authentication.accessToken)
+    //         .then(users => {
+    //             resolve(users);
+    //         }).catch((err) => {
+    //             reject(err);
+    //         });
+    //     })
         
-        return promise;
-    }
+    //     return promise;
+    // }
 
     deleteGroup(group){
         console.log(group);
@@ -96,7 +102,10 @@ export class GroupService{
 
     removeUserFromGroup(groupId, fkId){
         var promise = new Promise((resolve, reject) => {
-            return this.apiEndpoint.destroy('/groups/'+ groupId + '/users/' + fkId + '?access_token=' + this.authService.authentication.accessToken)
+            return this.apiEndpoint.destroy('/groups/'+ groupId + '/users/' + fkId ,{
+                "access_token" : this.authService.authentication.accessToken,
+                "filter" : {"include": "users"}
+            })
             .then(() => {
                 resolve();
             }).catch((err) => alert(err));
@@ -107,9 +116,12 @@ export class GroupService{
 
     addUserToGroup(groupId, userId){
         var promise = new Promise((resolve, reject) => {
-            return this.apiEndpoint.create('/groups/'+ groupId + '/users?access_token=' + this.authService.authentication.accessToken, {
+            return this.apiEndpoint.create('/groups/'+ groupId + '/users', {
                 "userId": userId,
                 "groupId": groupId
+            },{
+                "access_token" : this.authService.authentication.accessToken,
+                "filter" : {"include": "users"}
             })
             .then(users => {
                 resolve(users);

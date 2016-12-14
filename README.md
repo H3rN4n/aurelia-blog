@@ -1,4 +1,4 @@
-# aurelia-skeleton-webpack
+# Blog using AureliaJs and Loopback
 
 ## Getting started
 

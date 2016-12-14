@@ -26,18 +26,18 @@
                 </div>
                 <div if.bind="group.id" class="form-group">
                     <label for="">Users</label>
-                    <div repeat.for="user of users" class="checkbox">
-                        <label if.bind="!checkedIfUserIsSelected(user, 'user')">
-                            <input type="checkbox" change.delegate="addUserFromGroup(group.id, user.id)"> ${user.firstName} ${user.lastName}
+                    <div repeat.for="user of users & twoWay" class="checkbox">
+                        <label show.bind="!user.isSelected & twoWay">
+                            <input type="checkbox" change.delegate="addUserFromGroup(group.id, user.id)"> ${user.firstName} ${user.lastName} ${user.isSelected}
                         </label>
                     </div>
                 </div>
                 <div if.bind="group.id" class="form-group">
                     <label for="">Users Added</label>
                     <ul class="list-group">
-                        <li repeat.for="relation of group.users" class="list-group-item">
-                            ${getUserName(relation.userId)}
-                            <button class="btn btn-sm btn-danger pull-right" click.delegate="removeUserFromGroup(group.id, relation)">remove</button>
+                        <li repeat.for="user of group.users" class="list-group-item">
+                            ${user.firstName} ${user.lastName}
+                            <button class="btn btn-sm btn-danger pull-right" click.delegate="removeUserFromGroup(group.id, user)">remove</button>
                         </li>
                     </ul>
                 </div>

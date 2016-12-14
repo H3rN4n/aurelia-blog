@@ -31,13 +31,26 @@ export class ManageGroups{
         
         this.userService.getUsers().then((users)=>{
             this.users = users;
-            console.log(this.users);
             if(routeConfig.name == "group-management"){
                 this.groupService.getGroup(params.id).then((group)=>{
                     this.group = group;
+                    this.checkIfUserIsSelected(group.users);
                 })
             }
+
             return true;
+        })
+    }
+
+    checkIfUserIsSelected(groupUsers){
+        var groupUsersIds = groupUsers.map((user)=>{return user.id});
+        console.log(groupUsersIds); 
+        this.users.forEach((elem)=>{
+            elem.isSelected = false;
+            console.log(elem.id, groupUsersIds.indexOf(elem.id) >= 0);
+            if(groupUsersIds.indexOf(elem.id) >= 0){
+                elem.isSelected = true;    
+            }
         })
     }
 
@@ -52,24 +65,16 @@ export class ManageGroups{
         });
     }
 
-    removeUserFromGroup(groupId, relation){        
-        this.groupService.removeUserFromGroup(groupId, relation.id).then(()=>{
+    removeUserFromGroup(groupId, user){        
+        this.groupService.removeUserFromGroup(groupId, user.relationId).then(()=>{
             console.log('user removed');
-            var index = this.group.users.indexOf(relation);
+            var index = this.group.users.indexOf(user);
             console.log(index); 
             this.group.users.splice(index, 1);
+            this.checkIfUserIsSelected(this.group.users);
         }).catch((err)=>{
             console.log(err);
         });
-    }
-
-    getUserName(id){
-        function checkValue(value) {
-            return value.id == id;            
-        }
-
-        var filtered = this.users.filter(checkValue);
-        return filtered[0].firstName + " " + filtered[0].lastName;;   
     }
 
     addUserFromGroup(groupId, userId){
@@ -77,28 +82,10 @@ export class ManageGroups{
         this.groupService.addUserToGroup(groupId, userId).then((user)=>{
             console.log('user added');
             this.group.users = this.group.users.concat(user);
+            this.checkIfUserIsSelected(this.group.users);
         }).catch((err)=>{
             console.log(err);
         });    
-    }
-    
-
-    checkedIfUserIsSelected(obj, type){
-        console.log(obj ,type)
-        function checkValue(value) {
-            if(type == "relation"){
-                return value.userId == obj.userId;
-            } else {
-                return value.userId == obj.id;
-            } 
-        }
-
-        if(this.group.users && this.group.users.length){
-            var result = this.group.users.filter(checkValue);
-            if(result.length){
-                return true;
-            }
-        }       
     }
 
     post(group){
