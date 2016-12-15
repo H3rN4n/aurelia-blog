@@ -13,8 +13,8 @@ export class GroupList{
     activate(params, routeConfig, $navigationInstruction) {
         this.groupService.getGroups().then((response) => {
             this.groups = response;
+            return true;
          });
-        return true;
     }
 
 }

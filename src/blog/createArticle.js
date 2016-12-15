@@ -24,21 +24,17 @@ export class createArticle{
 
         ValidationRules
         .ensure(a => a.title)
-        .required()
-        .minLength(5)
-        .on(this.article);
-
-        ValidationRules
+            .required()
+            .minLength(5)
+            .on(this.article)
         .ensure(a => a.description)
-        .required()
-        .minLength(20)
-        .on(this.article);
-
-        ValidationRules
+            .required()
+            .minLength(20)
+            .on(this.article)
         .ensure(a => a.content)
-        .required()
-        .minLength(20)
-        .on(this.article);
+            .required()
+            .minLength(20)
+            .on(this.article);
     }
 
     canActivate(params, routeConfig, $navigationInstruction) {

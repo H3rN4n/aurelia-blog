@@ -77,10 +77,11 @@ export class ManageGroups{
         });
     }
 
-    addUserFromGroup(groupId, userId){
+    addUserFromGroup(groupId, user){
         //@todo: validate if relation exist;
-        this.groupService.addUserToGroup(groupId, userId).then((user)=>{
+        this.groupService.addUserToGroup(groupId, user.id).then((userRelation)=>{
             console.log('user added');
+            user.relationId = userRelation.id;
             this.group.users = this.group.users.concat(user);
             this.checkIfUserIsSelected(this.group.users);
         }).catch((err)=>{

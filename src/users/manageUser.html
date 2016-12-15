@@ -27,14 +27,41 @@
                     <label for="lastName">Last Name</label>
                     <input type="text" disabled="disabled" value.bind="user.lastName & validate" class="form-control au-target" id="lastName">
                 </div>
-                <div class="form-group">
-                    <label for="">Groups</label>
+
+                <div if.bind="user.id" class="form-group">
+                    <label for="">Groups Available</label>
+                    <div repeat.for="group of groups & twoWay" class="checkbox">
+                        <label show.bind="!group.isSelected & twoWay">
+                            <input type="checkbox" change.delegate="addGroupToUser(user.id, group)"> ${group.name}
+                        </label>
+                    </div>
+                </div>
+                <div if.bind="user.id" class="form-group">
+                    <label for="">Groups Added</label>
+                    <ul class="list-group">
+                        <li repeat.for="group of user.groups" class="list-group-item">
+                            ${group.name}
+                            <button class="btn btn-sm btn-danger pull-right" style="padding: 1px 5px;" click.delegate="removeGroupFromUser(user.id, group)">remove</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--<div class="form-group">
+                    <label for="">Groups Available</label>
                     <div repeat.for="group of groups" class="checkbox">
                         <label>
                         <input type="checkbox"> ${group.name}
                         </label>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="">Groups</label>
+                    <div repeat.for="group of user.groups" class="checkbox">
+                        <label>
+                        <input type="checkbox"> ${group.name}
+                        </label>
+                    </div>
+                </div>-->
                 <button type="submit" class="btn btn-success">Save</button>
                 <!--<ul if.bind="validationController.errors">
                     <li repeat.for="error of validationController.errors" style="color:red;">

@@ -90,11 +90,14 @@ export class GroupService{
     deleteGroup(group){
         console.log(group);
         var promise = new Promise((resolve, reject) => {
-            if(group.users && group.users.length) reject({message: 'This group still have users'})
-            return this.apiEndpoint.destroy('/groups/' + group.id)
-            .then(() => {
-                resolve();
-            }).catch((err)=> alert(err));
+            if(group.users && group.users.length) {
+               return reject({message: 'This group still have users'})
+            } else {
+                return this.apiEndpoint.destroy('/groups/' + group.id)
+                .then(() => {
+                    resolve();
+                }).catch((err)=> alert(err));
+            }
         })
         
         return promise;
@@ -102,7 +105,7 @@ export class GroupService{
 
     removeUserFromGroup(groupId, fkId){
         var promise = new Promise((resolve, reject) => {
-            return this.apiEndpoint.destroy('/groups/'+ groupId + '/users/' + fkId ,{
+            return this.apiEndpoint.destroy('/groups/'+ groupId + '/users/' + fkId,{
                 "access_token" : this.authService.authentication.accessToken,
                 "filter" : {"include": "users"}
             })

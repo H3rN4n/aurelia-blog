@@ -33,33 +33,45 @@ export class App {
         name: 'user-list',
         nav: true,
         moduleId: './users/userList',
-        title: 'Users'
+        title: 'Users',
+        'auth': true,
+        'role': 'admin'
       }, {
         route: 'users/create',
         name: 'create-user',
         moduleId: './users/manageUser',
-        title: 'Create User'
+        title: 'Create User',
+        'auth': true,
+        'role': 'admin'
       }, {
         route: 'users/:id',
         name: 'user-management',
         moduleId: './users/manageUser',
-        title: 'User Management'
+        title: 'User Management',
+        'auth': true,
+        'role': 'admin'
       }, {
         route: 'groups',
         name: 'group-list',
         moduleId: './groups/groupList',
         nav: true,
-        title: 'Groups'
+        title: 'Groups',
+        'auth': true,
+        'role': 'admin'
       }, {
         route: 'groups/create',
         name: 'create-group',
         moduleId: './groups/manageGroups',
-        title: 'Create Group'
+        title: 'Create Group',
+        'auth': true,
+        'role': 'admin'
       }, {
         route: 'groups/:id',
         name: 'group-management',
         moduleId: './groups/manageGroups',
-        title: 'Group Management'
+        title: 'Group Management',
+        'auth': true,
+        'role': 'admin'
       },
       //{ route: 'users',         name: 'users',        moduleId: './users',        nav: true, title: 'Github Users' },
       //{ route: 'blog',          name: 'blog',         moduleId: './blog/blog',         nav: true, title: 'Blog' },

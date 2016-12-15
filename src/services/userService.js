@@ -56,12 +56,15 @@ export class UserService{
 
     getUser(id){
         var promise = new Promise((resolve, reject) => {
-            console.log(this.authService);
-            return this.apiEndpoint.find('/users/' + id + '?access_token=' + this.authService.authentication.accessToken)
-            .then(users => {
-                resolve(users);
-            }).catch((err) => alert(err));
-        })
+            return this.apiEndpoint.find('/users/'+ id, {
+                "access_token" : this.authService.authentication.accessToken,
+                "filter" : {"include": "groups"}
+            })
+            .then(user => {
+                console.log(user);
+                resolve(user);
+            });
+        });
         
         return promise;
     }
@@ -110,6 +113,38 @@ export class UserService{
             resolve(result);
         }).catch((err) => alert(err))
         
+        return promise;
+    }
+
+    removeGroupFromUser(userId, fkId){
+        var promise = new Promise((resolve, reject) => {
+            return this.apiEndpoint.destroy('/users/'+ userId + '/groups/' + fkId,{
+                "access_token" : this.authService.authentication.accessToken,
+                "filter" : {"include": "groups"}
+            })
+            .then(() => {
+                resolve();
+            }).catch((err) => alert(err));
+        })
+
+        return promise;
+    }
+
+    addGroupToUser(userId, groupId){
+        console.log(userId, groupId);
+        var promise = new Promise((resolve, reject) => {
+            return this.apiEndpoint.create('/users/'+ userId + '/groups?access_token=' + this.authService.authentication.accessToken, {
+                "userId": userId,
+                "groupId": groupId
+            },{
+                "access_token" : this.authService.authentication.accessToken,
+                "filter" : {"include": "groups"}
+            })
+            .then(users => {
+                resolve(users);
+            }).catch((err) => alert(err));
+        })
+
         return promise;
     }
     

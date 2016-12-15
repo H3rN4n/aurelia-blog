@@ -20,21 +20,58 @@ export class ManageUser{
 
     activate(params, routeConfig, $navigationInstruction) {
         this.routeName = routeConfig.name; 
-
         
         this.groupService.getGroups().then((response)=>{
             this.groups = response;
-            console.log(this.groups);
+            if(routeConfig.name == "user-management"){
+                this.userService.getUser(params.id).then((response)=>{
+                    this.user = response;
+                    this.checkIfGroupIsSelected(this.user.groups);
+                    return true;
+                })
+            } else {
+                return true;
+            }
+
         })
         
+    }
 
-        if(routeConfig.name == "user-management"){
-            this.userService.getUser(params.id).then((response)=>{
-                this.user = response;
-            })
-        }
+    removeGroupFromUser(userId, group){    
+        console.log(group);    
+        this.userService.removeGroupFromUser(userId, group.relationId).then(()=>{
+            console.log('group removed');
+            var index = this.user.groups.indexOf(group);
+            console.log(index); 
+            this.user.groups.splice(index, 1);
+            this.checkIfGroupIsSelected(this.user.groups);
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
 
-        return true;
+    addGroupToUser(userId, group){
+        //@todo: validate if relation exist;
+        this.userService.addGroupToUser(userId, group.id).then((groupRelation)=>{
+            console.log('group added');
+            group.relationId = groupRelation.id;
+            this.user.groups = this.user.groups.concat(group);
+            this.checkIfGroupIsSelected(this.user.groups);
+        }).catch((err)=>{
+            console.log(err);
+        });    
+    }
+
+    checkIfGroupIsSelected(userGroups){
+        var userGroupsIds = userGroups.map((group)=>{return group.id});
+        console.log('userGroupsIds',userGroupsIds); 
+        this.groups.forEach((elem)=>{
+            elem.isSelected = false;
+            console.log(elem.id, userGroupsIds.indexOf(elem.id) >= 0);
+            if(userGroupsIds.indexOf(elem.id) >= 0){
+                elem.isSelected = true;    
+            }
+        })
     }
 
     delete(){
